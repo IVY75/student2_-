@@ -1,3 +1,61 @@
+#student 1
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+
+# url 가져오기
+driver = webdriver.Chrome(executable_path="./chromedriver.exe")
+url = 'https://www.cgv.co.kr/'
+driver.get(url)
+
+# 검색어 입력
+time.sleep(2)
+serch = driver.find_element_by_xpath(
+    '//*[@id="header_keyword"]')
+serch.click()
+driver.find_element_by_xpath(
+    '//*[@id="header_keyword"]').send_keys('쥬라기 월드')
+serch.send_keys(Keys.ENTER)
+
+
+# 이름, 예매율, 개봉일 크롤링
+res = []
+res.append(('이름','예매율','개봉일'))
+time.sleep(2)
+try:
+    name = driver.find_element_by_xpath(
+    f'//*[@id="preOrderMovie_list"]/li/div/strong').text
+    print(f'---{name}---')
+except:
+    name = "NAN"
+    pass
+try:
+    rate = driver.find_element_by_xpath(
+    f'//*[@id="preOrderMovie_list"]/li/div/span[1]').text
+    print(f'---{rate}---')
+except:
+    rate = "NAN"
+    pass
+try:
+    date = driver.find_element_by_xpath(
+    f'//*[@id="preOrderMovie_list"]/li/div/span[3]').text
+    print(f'---{date}---')
+except:
+    date = "NAN"
+    pass
+res.append((name, rate, date))
+    
+print(res)
+driver.quit()
+
+
+
+data = pd.DataFrame(res)
+data.to_csv('./cgv_data.csv')
+
+
+
 #student_2
 !pip install selenium
 !apt-get update
