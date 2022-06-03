@@ -46,5 +46,5 @@ def get_movie_reviews(url,page_num=10):
   return movie_review_df
 
 url = "http://www.cgv.co.kr/movies/detail-view/?midx=85689#select_main"
-movie_review_df = get_movie_reviews(url, 2)
+movie_review_df = get_movie_reviews(url)
 movie_review_df
